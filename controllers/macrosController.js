@@ -15,20 +15,11 @@ const getAllMacrosPaginated = async (req,res)=>{
 
   
   if(sort){
-        const arr = ['protien','carbs','fats','fibres','water','calories','createdAt']
-        
-        console.log(sort);
         
         let sortColumn = sort.split('|')[0];
         let sortDircetion = sort.split('|')[1]==='DESC'?'-':'';
+        result = result.sort(`${sortDircetion}${sortColumn}`);        
         
-        console.log(sortColumn);
-        console.log(sortDircetion);
-        let isSort = await arr.includes(sortColumn);
-
-        if(isSort){
-            result = result.sort(`${sortDircetion}${sortColumn}`);        
-        }
   }
   else{
     result = result.sort('-createdAt');

@@ -11,17 +11,27 @@ const getAllMacrosPaginated = async (req,res)=>{
 
   const {sort} = req.query;
   
-  let result = Macro.find({user:req.user.userId}).sort('createdAt');
+  let result = Macro.find({user:req.user.userId});
 
   
   if(sort){
         const arr = ['protien','carbs','fats','fibres','water','calories','createdAt']
-        const sortColumn = sort.split('|')[0];
-        const sortDircetion = sort.split('|')[1]==='DESC'?'-':'';
+        
+        console.log(sort);
+        
+        let sortColumn = sort.split('|')[0];
+        let sortDircetion = sort.split('|')[1]==='DESC'?'-':'';
+        
+        console.log(sortColumn);
+        console.log(sortDircetion);
+        let isSort = await arr.includes(sortColumn);
 
-        if(arr.includes(sortColumn)){
+        if(isSort){
             result = result.sort(`${sortDircetion}${sortColumn}`);        
         }
+  }
+  else{
+    result = result.sort('-createdAt');
   }
 
   const page = Number(req.query.page) || 1;
